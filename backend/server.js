@@ -24,7 +24,7 @@ app.post('/signup', async (req, res) => {
     const user = new User({
       email,
       password,
-      role: 'employee' 
+      role: 'admin' 
     });
 
     await user.save();
@@ -109,6 +109,20 @@ app.post('/employees', async (req, res) => {
   }
 });
 
+app.get('/attendance', async (req, res) => {
+  try {
+    const { userId } = req.query;
+
+    const data = await Attendance.find({ userId });
+
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
 
 app.post('/attendance', async (req, res) => {
   try {
