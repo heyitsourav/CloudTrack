@@ -140,6 +140,6 @@ Add screenshots here:
 
 B.Tech CSE (AI & ML)
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/heyitsourav
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: https://linkedin.com/in/sourav-mahapatra221999
