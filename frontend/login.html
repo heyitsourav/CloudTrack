@@ -189,7 +189,8 @@ async function login() {
     }
 
   } catch (err) {
-    alert("Server error. Please try again.");
+    console.error(err);
+    alert("Server connection failed");
     resetBtn(btn);
   }
 }
@@ -214,6 +215,10 @@ async function signup() {
 
     if (res.status === 200) {
       alert("Account created successfully! Now login.");
+
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+
     } else {
       alert(data.message || "Signup failed");
     }
