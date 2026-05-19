@@ -537,6 +537,12 @@ async function loadEmployees() {
 
   const res = await fetch(
   `${API}/employees?userId=${userId}&role=${role}&email=${email}`);
+
+  if(!res.ok){
+     console.log("Employees API failed");
+     return;
+  }
+
   const data = await res.json();
 
   const attendanceData = await loadAttendance();
@@ -829,10 +835,10 @@ async function addEmployee() {
     joiningDate: new Date().toISOString().split('T')[0]
   };
 
-  await fetch(`${API}/employees`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
+  const res = await fetch(`${API}/employees`, {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json'
     },
     body: JSON.stringify({
       ...emp,
@@ -840,7 +846,14 @@ async function addEmployee() {
     })
   });
 
-  showToast(`${name} added successfully ✅`);
+  const data = await res.json();
+
+  if(res.ok){
+     showToast(`${name} added successfully ✅`);
+     loadEmployees();
+  }else{
+     showToast(data.message || "Failed","#c53030");
+  }
 
   ['f-name','f-id','f-dept','f-email','f-phone'].forEach(id=>{
     document.getElementById(id).value='';

@@ -67,25 +67,28 @@ app.get('/', (req, res) => {
   res.send("🚀 Server running");
 });
 
-
-
 app.get('/employees', async (req, res) => {
   try {
-    const { role, email } = req.query;
+    const { role, userId } = req.query;
 
     let data;
 
     if (role === 'admin') {
-      data = await Employee.find(); 
+      data = await Employee.find();
     } else {
-      data = await Employee.find({ email }); 
+      data = await Employee.find({ userId });
     }
 
     res.json(data);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message
+    });
   }
 });
+
+
 
 
 app.post('/employees', async (req, res) => {
