@@ -445,6 +445,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+const API = "http://localhost:5000";  
 if (!localStorage.getItem('token')) {
   if (!window.location.href.includes("login.html")) {
     window.location.href = "login.html";
@@ -458,7 +459,7 @@ let employees = [];
 async function loadAttendance() {
   const userId = localStorage.getItem('userId');
 
-  const res = await fetch(`http://localhost:5000/attendance?userId=${userId}`);
+  const res = await fetch(`${API}/attendance?userId=${userId}`);
   const data = await res.json();
 
   todayStatus = {};
@@ -535,7 +536,7 @@ async function loadEmployees() {
   const email = localStorage.getItem('email');
 
   const res = await fetch(
-  `http://localhost:5000/employees?userId=${userId}&role=${role}&email=${email}`);
+  `${API}/employees?userId=${userId}&role=${role}&email=${email}`);
   const data = await res.json();
 
   const attendanceData = await loadAttendance();
@@ -677,8 +678,8 @@ async function renderAttTable() {
   const userId = localStorage.getItem('userId');
   const role = localStorage.getItem('role');
 
-  // ✅ FIX: proper fetch
-  const res = await fetch(`http://localhost:5000/attendance?userId=${userId}`);
+
+  const res = await fetch(`${API}/attendance?userId=${userId}`);
   const data = await res.json();
 
   const alreadyMarked = data.some(a => a.date === todayStr);
@@ -740,7 +741,7 @@ async function saveAttendance() {
     userId
   }));
 
-  const res = await fetch('http://127.0.0.1:5000/attendance', {
+  const res = await fetch(`${API}/attendance`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -828,7 +829,7 @@ async function addEmployee() {
     joiningDate: new Date().toISOString().split('T')[0]
   };
 
-  await fetch('http://127.0.0.1:5000/employees', {
+  await fetch(`${API}/employees`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
