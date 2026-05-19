@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - CloudTrack</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background: #fff;
+  padding: 35px;
+  width: 320px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  background: #2a5298;
+  color: #fff;
+  font-weight: bold;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+h2 {
+  margin-bottom: 5px;
+  color: #2a5298;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #2a5298;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #1e3c72;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #38a169;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-btn:hover {
+  background: #2f855a;
+}
+
+.footer-text {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+  <div class="logo">CT</div>
+  <h2>CloudTrack</h2>
+  <div class="subtitle">Login to your account</div>
+
+  <div class="input-group">
+    <label>Email</label>
+    <input id="email" placeholder="Enter email">
+  </div>
+
+  <div class="input-group">
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Enter password">
+  </div>
+
+  <button class="login-btn" onclick="login()">Login</button>
+  <button class="signup-btn" onclick="signup()">Create Account</button>
+
+  <div class="footer-text">Secure Login Portal</div>
+
+</div>
+
+<script>
+
+const API_BASE = "http://127.0.0.1:5000";
+
+async function login() {
+  const btn = document.querySelector('.login-btn');
+  btn.innerText = "Logging in...";
+  btn.disabled = true;
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!email || !password) {
+    alert("Please enter email and password");
+    resetBtn(btn);
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
+      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('email', data.email);
+
+      window.location.href = "index.html";
+    } else {
+      alert(data.message || "Login failed");
+      resetBtn(btn);
+    }
+
+  } catch (err) {
+    alert("Server error. Please try again.");
+    resetBtn(btn);
+  }
+}
+
+async function signup() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+      alert("Account created successfully! Now login.");
+    } else {
+      alert(data.message || "Signup failed");
+    }
+
+  } catch (err) {
+    alert("Server error. Please try again.");
+  }
+}
+
+function resetBtn(btn) {
+  btn.innerText = "Login";
+  btn.disabled = false;
+}
+
+</script>
+</body>
+</html>
