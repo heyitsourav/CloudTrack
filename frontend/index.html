@@ -457,10 +457,9 @@ const initials = n => n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(
 let employees = [];
 
 async function loadAttendance() {
-  const userId = localStorage.getItem('email');
-  const role = localStorage.getItem('role');
+  const userId = localStorage.getItem('userId');
 
-  const res = await fetch(`${API}/attendance?email=${email}&role=${role}`);
+  const res = await fetch(`${API}/attendance?userId=${userId}`);
   const data = await res.json();
 
   todayStatus = {};
@@ -537,7 +536,7 @@ async function loadEmployees() {
   const email = localStorage.getItem('email');
 
   const res = await fetch(
-  `${API}/employees?email=${email}&role=${role}`);
+  `${API}/employees?userId=${userId}&role=${role}&email=${email}`);
 
   if(!res.ok){
      console.log("Employees API failed");
