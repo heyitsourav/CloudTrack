@@ -107,19 +107,6 @@ app.post('/employees', async (req, res) => {
 });
 
 
-app.get('/attendance', async (req, res) => {
-  try {
-    const { userId } = req.query;
-
-    const data = await Attendance.find({ userId });
-
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
 app.post('/attendance', async (req, res) => {
   try {
     const { records, userId, role } = req.body;
@@ -129,7 +116,7 @@ app.post('/attendance', async (req, res) => {
       const existing = await Attendance.findOne({
         empId: record.empId,
         date: record.date,
-        userId: record.userId
+        userId: userId
       });
 
       if (existing && role !== 'admin') {
@@ -142,17 +129,24 @@ app.post('/attendance', async (req, res) => {
         {
           empId: record.empId,
           date: record.date,
-          userId: record.userId
+          userId: userId
         },
-        record,
-        { upsert: true }
+        {
+          ...record,
+          userId
+        },
+        { upsert: true, new: true }
       );
     }
 
-    res.json({ message: "Attendance saved successfully" });
+    res.json({
+      message: "Attendance saved successfully"
+    });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message
+    });
   }
 });
 
