@@ -459,7 +459,9 @@ let employees = [];
 async function loadAttendance() {
   const userId = localStorage.getItem('userId');
 
-  const res = await fetch(`${API}/attendance?userId=${userId}`);
+  const res = await fetch(
+  `${API}/attendance?email=${email}&role=${role}`
+  );
   const data = await res.json();
 
   todayStatus = {};

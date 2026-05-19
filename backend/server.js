@@ -89,8 +89,6 @@ app.get('/employees', async (req, res) => {
 });
 
 
-
-
 app.post('/employees', async (req, res) => {
   try {
     const { userRole } = req.body;
@@ -111,9 +109,23 @@ app.post('/employees', async (req, res) => {
 
 app.get('/attendance', async (req, res) => {
   try {
-    const { userId } = req.query;
 
-    const data = await Attendance.find({ userId });
+    const { role, email } = req.query;
+
+    if (role === "admin") {
+      const data = await Attendance.find();
+      return res.json(data);
+    }
+
+    const employee = await Employee.findOne({ email });
+
+    if (!employee) {
+      return res.json([]);
+    }
+
+    const data = await Attendance.find({
+      empId: employee.empId
+    });
 
     res.json(data);
 
@@ -124,36 +136,34 @@ app.get('/attendance', async (req, res) => {
   }
 });
 
+
 app.post('/attendance', async (req, res) => {
   try {
-    const { records, userId, role } = req.body;
+
+    const { records, role } = req.body;
+
+    if (role !== "admin") {
+      return res.status(403).json({
+        message: "Only admin can mark attendance"
+      });
+    }
 
     for (let record of records) {
 
       const existing = await Attendance.findOne({
         empId: record.empId,
-        date: record.date,
-        userId: userId
+        date: record.date
       });
 
-      if (existing && role !== 'admin') {
-        return res.status(403).json({
-          message: "Attendance already marked for today"
-        });
+      if (existing) {
+        continue;
       }
 
-      await Attendance.findOneAndUpdate(
-        {
-          empId: record.empId,
-          date: record.date,
-          userId: userId
-        },
-        {
-          ...record,
-          userId
-        },
-        { upsert: true, new: true }
-      );
+      await Attendance.create({
+        empId: record.empId,
+        status: record.status,
+        date: record.date
+      });
     }
 
     res.json({
