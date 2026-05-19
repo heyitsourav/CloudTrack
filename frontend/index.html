@@ -860,7 +860,9 @@ function renderReports() {
     const rb=pct>=95?'badge-green':pct>=85?'badge-blue':pct>=75?'badge-gray':'badge-red';
     return {e,present,absent,leave,pct,remark,rb};
   });
-  const avg=Math.round(data.reduce((s,d)=>s+d.pct,0)/data.length);
+  const avg = data.length
+  ? Math.round(data.reduce((s,d)=>s+d.pct,0)/data.length)
+  : 0;
   document.getElementById('r-avg').textContent=avg+'%';
   document.getElementById('r-perfect').textContent=data.filter(d=>d.pct>=95).length;
   document.getElementById('r-chronic').textContent=data.filter(d=>d.pct<80).length;
@@ -885,11 +887,13 @@ updateStats();
 renderWeeklyChart();
 renderDeptChart();
 renderCalendar();
-renderTopPerformers();
+
 async function init() {
   await loadEmployees();
   await loadAttendance();
+
   renderAttTable();
+  renderTopPerformers();
 }
 
 init();
