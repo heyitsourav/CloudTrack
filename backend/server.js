@@ -69,14 +69,14 @@ app.get('/', (req, res) => {
 
 app.get('/employees', async (req, res) => {
   try {
-    const { role, userId } = req.query;
+    const { role, email } = req.query;
 
     let data;
 
     if (role === 'admin') {
       data = await Employee.find();
     } else {
-      data = await Employee.find({ userId });
+      data = await Employee.find({ email });
     }
 
     res.json(data);

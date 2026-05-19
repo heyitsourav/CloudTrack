@@ -536,7 +536,7 @@ async function loadEmployees() {
   const email = localStorage.getItem('email');
 
   const res = await fetch(
-  `${API}/employees?userId=${userId}&role=${role}`);
+  `${API}/employees?email=${email}&role=${role}`);
 
   if(!res.ok){
      console.log("Employees API failed");
