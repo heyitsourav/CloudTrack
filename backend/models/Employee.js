@@ -9,7 +9,6 @@ const employeeSchema = new mongoose.Schema({
   dept: String,
   role: String,
   email: String,
-  userId: String,
 
   joiningDate: {
     type: String,

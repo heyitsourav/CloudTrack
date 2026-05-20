@@ -457,10 +457,14 @@ const initials = n => n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(
 let employees = [];
 
 async function loadAttendance() {
-  const userId = localStorage.getItem('email');
+
+  const email = localStorage.getItem('email');
   const role = localStorage.getItem('role');
 
-  const res = await fetch(`${API}/attendance?email=${email}&role=${role}`);
+  const res = await fetch(
+    `${API}/attendance?email=${email}&role=${role}`
+  );
+
   const data = await res.json();
 
   todayStatus = {};

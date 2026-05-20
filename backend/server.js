@@ -24,7 +24,7 @@ app.post('/signup', async (req, res) => {
     const user = new User({
       email,
       password,
-      role: 'admin' 
+      role: 'employee' 
     });
 
     await user.save();
