@@ -1,136 +1,156 @@
-# ☁️ CloudTrack - Smart Attendance Management System
+# 🚀 CloudTrack - Employee Attendance & Management System
 
-CloudTrack is a full-stack Smart Attendance Management System designed to simplify attendance tracking and employee management. It includes role-based authentication, attendance monitoring, and an interactive dashboard for analytics.
+CloudTrack is a full-stack Employee Attendance and Management System designed to simplify employee management and attendance tracking through role-based access.
 
-## 🚀 Features
+## 📌 Features
 
-### 🔐 Authentication
-- User Signup & Login
-- Role-based access (Admin / Employee)
-- Session handling with Local Storage
+### Authentication & Roles
 
-### 👨‍💼 Admin Features
-- Add employees
-- Manage employee data
-- Mark attendance
-- Update attendance records
-- View analytics dashboard
+* Secure Login and Signup
+* Role-based access (Admin / Employee)
 
-### 👤 Employee Features
-- Login securely
-- View personal dashboard
-- Mark attendance once per day
-- View attendance status and percentage
+### Admin Features
 
-### 📊 Dashboard Features
-- Total employees
-- Present today
-- Absent today
-- Leave count
-- Attendance percentage tracking
-- Weekly analytics
-- Department-wise insights
+* Add employees
+* Manage employee records
+* Mark employee attendance
+* View all employee information
+* Monitor attendance statistics
 
-### ☁️ Database Features
-- MongoDB integration
-- User data storage
-- Attendance storage
-- Employee management
+### Employee Features
+
+* Login to personal account
+* View personal attendance
+* Track attendance percentage
+* Access dashboard statistics
+
+### Dashboard Features
+
+* Live employee count
+* Attendance percentage calculation
+* Top performers section
+* Dynamic analytics
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 
 ### Frontend
-- HTML
-- CSS
-- JavaScript
+
+* HTML5
+* CSS3
+* JavaScript
 
 ### Backend
-- Node.js
-- Express.js
+
+* Node.js
+* Express.js
 
 ### Database
-- MongoDB
+
+* MongoDB Atlas
+* Mongoose
+
+### Deployment
+
+* GitHub
+* Render
+* Netlify
 
 ---
 
 ## 📂 Project Structure
 
-```bash
 CloudTrack/
-│
+
 ├── frontend/
-│   ├── index.html
-│   ├── login.html
-│   ├── style.css
-│   └── script.js
+
+│ ├── index.html
+
+│ ├── login.html
+
+│ ├── style.css
+
+│ └── script.js
+
 │
-├── models/
-│   ├── User.js
-│   ├── Employee.js
-│   └── Attendance.js
+
+├── backend/
+
+│ ├── server.js
+
+│ ├── models/
+
+│ │ ├── Employee.js
+
+│ │ ├── Attendance.js
+
+│ │ └── User.js
+
+│ │
+
+│ └── .env
+
 │
-├── server.js
+
 ├── package.json
+
 └── README.md
-```
 
 ---
 
 ## ⚙️ Installation
 
-Clone repository:
+1. Clone repository
 
-```bash
-git clone https://github.com/yourusername/cloudtrack.git
-```
+git clone https://github.com/heyitsourav/CloudTrack
 
-Move into project:
+2. Open project folder
 
-```bash
-cd cloudtrack
-```
+cd CloudTrack
 
-Install dependencies:
+3. Install dependencies
 
-```bash
 npm install
-```
 
-Run server:
+4. Create .env file
 
-```bash
+MONGO_URI=your_mongodb_connection_string
+
+PORT=5000
+
+5. Run backend server
+
 node server.js
-```
 
-Open in browser:
+---
 
-```bash
-http://localhost:5500
-```
+## 🌐 Live Demo
+
+Frontend:
+https://cloudtrackweb.netlify.app/login
 
 ---
 
 ## 📸 Screenshots
 
-Add screenshots here:
+Add screenshots of:
 
-- Login Page
-- Dashboard
-- Employee Directory
-- Attendance Page
+* Dashboard
+* Login Page
+* Employee List
+* Attendance System
 
 ---
 
-## 🔮 Future Improvements
+## 🎯 Future Improvements
 
-- JWT Authentication
-- Password encryption using bcrypt
-- Email notifications
-- Profile management
-- Dark mode
-- Deployment support
+* Password hashing using bcrypt
+* JWT Authentication
+* Profile image upload
+* Email notifications
+* Advanced analytics
+* Leave management system
 
 ---
 
