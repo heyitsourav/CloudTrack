@@ -484,8 +484,12 @@ function calculateAttendance(employees, attendanceData) {
   const map = {};
 
   attendanceData.forEach(a => {
+
     if (!map[a.empId]) {
-      map[a.empId] = { total: 0, present: 0 };
+      map[a.empId] = {
+        total: 0,
+        present: 0
+      };
     }
 
     map[a.empId].total++;
@@ -496,24 +500,16 @@ function calculateAttendance(employees, attendanceData) {
   });
 
   return employees.map(emp => {
-    const stats = map[emp.empId] || { total: 0, present: 0 };
 
-    const today = new Date();
-    today.setHours(0,0,0,0);
+    const stats = map[emp.empId] || {
+      total: 0,
+      present: 0
+    };
 
-    const joining = emp.joiningDate 
-      ? new Date(emp.joiningDate) 
-      : new Date();
-
-    joining.setHours(0,0,0,0);
-
-    const totalDays = Math.ceil((today - joining) / (1000 * 60 * 60 * 24)) + 1;
-
-    const presentDays = Math.min(stats.present, totalDays); // 🔥 safety
-
-    const pct = totalDays === 0
+    const pct =
+      stats.total === 0
       ? 0
-      : Math.round((presentDays / totalDays) * 100);
+      : Math.round((stats.present / stats.total) * 100);
 
     return {
       ...emp,
@@ -553,6 +549,10 @@ async function loadEmployees() {
   const attendanceData = await loadAttendance();
 
   employees = calculateAttendance(data, attendanceData);
+
+  document.getElementById('st-total').innerText = employees.length;
+
+  renderTopPerformers();
 
   renderEmpTable();
   renderAttTable();
